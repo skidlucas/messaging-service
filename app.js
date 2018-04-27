@@ -24,5 +24,16 @@ const io = require("socket.io")(server);
 
 // Listen on every connection
 io.on("connection", (socket) => {
-    console.log("connected")
+
+    // Listen for setting the username of the client
+    socket.on("setUsername", (data) => {
+        console.log(data.username);
+        socket.username = data.username;
+    });
+
+    // Listen for new messages
+    socket.on("newMessage", (data) => {
+        // todo : broadcast so far; change to unicast if the user is already connected to the server else drop the msg
+        io.sockets.emit("newMessage", {message: data.message, username: socket.username});
+    });
 });

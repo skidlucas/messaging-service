@@ -6,11 +6,24 @@
     <title>Simple messaging app</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
     <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-<p>Hello, world!</p>
+<div id="divLogin" class="text-center">
+    <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+    <button id="btnLogin" class="btn btn-lg btn-primary btn-block">Log in</button>
+</div>
+
+<div id="divChat" class="container-fluid">
+    <div id="divMessages"></div>
+    <input class="form-control" id="textMessage">
+</div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
