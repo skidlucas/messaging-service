@@ -3,6 +3,8 @@
  * @author: Lucas Martinez
  */
 
+const PORT = 30000;
+
 const express = require("express");
 const app = express();
 
@@ -16,4 +18,11 @@ app.get("/", (req, res) => {
     res.render("index")
 });
 
-server = app.listen(30000);
+server = app.listen(PORT);
+
+const io = require("socket.io")(server);
+
+// Listen on every connection
+io.on("connection", (socket) => {
+    console.log("connected")
+});
