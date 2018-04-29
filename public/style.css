@@ -32,3 +32,24 @@ body {
 #divMessages {
     text-align: left;
 }
+
+#inputRecipient {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.listUsers {
+    color: green;
+}
+
+.ownMessage {
+    color: gray;
+}
+
+.otherMessage {
+    color: dodgerblue;
+}
+
+.error {
+    color: red;
+}

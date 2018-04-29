@@ -22,18 +22,36 @@ server = app.listen(PORT);
 
 const io = require("socket.io")(server);
 
+const connectedUsers = {};
+
 // Listen on every connection
 io.on("connection", (socket) => {
 
     // Listen for setting the username of the client
     socket.on("setUsername", (data) => {
-        console.log(data.username);
         socket.username = data.username;
+        connectedUsers[data.username] = socket.id;
+        console.log(connectedUsers)
     });
+
+    // Listen for the list of users
+    socket.on("listUsers", () => {
+        io.sockets.connected[socket.id].emit("listUsers", {'users': connectedUsers});
+    })
 
     // Listen for new messages
     socket.on("newMessage", (data) => {
-        // todo : broadcast so far; change to unicast if the user is already connected to the server else drop the msg
-        io.sockets.emit("newMessage", {message: data.message, username: socket.username});
+        let recipientSocketID = connectedUsers[data.recipient];
+        if (recipientSocketID){
+            // if the client tries to send a message to himself, display an error message
+            if (recipientSocketID === socket.id){
+                io.sockets.connected[socket.id].emit("sameUserAndRecipient");
+            } else {
+                io.sockets.connected[socket.id].emit("newMessage", {'message': data.message, 'username': socket.username, 'recipient': data.recipient});
+                io.sockets.connected[recipientSocketID].emit("newMessage", {'message': data.message, 'username': socket.username, 'recipient': data.recipient});
+            }
+        } else {
+            io.sockets.connected[socket.id].emit("unknownRecipient", {'recipient': data.recipient});
+        }
     });
 });
