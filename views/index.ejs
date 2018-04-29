@@ -18,9 +18,11 @@
     <label for="inputUsername" class="sr-only">Username</label>
     <input id="inputUsername" class="form-control" placeholder="Username" required autofocus>
     <button id="btnLogin" class="btn btn-lg btn-primary btn-block">Log in</button>
+    <p id="usedUsername">This username is already used.</p>
 </div>
 
 <div id="divChat" class="container-fluid">
+    <button id="btnDisconnect" class="btn btn-danger">Disconnect</button>
     <p id="usernameMessage"></p>
     <div id="divMessages"></div>
     <input class="form-control" id="inputRecipient" placeholder="Recipient">

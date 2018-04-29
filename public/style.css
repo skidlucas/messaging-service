@@ -20,6 +20,14 @@ body {
     margin: auto;
 }
 
+#divChat {
+    display: none;
+}
+
+#usedUsername {
+    display: none;
+}
+
 #inputUsername {
     position: relative;
     box-sizing: border-box;

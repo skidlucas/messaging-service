@@ -24,20 +24,33 @@ const io = require("socket.io")(server);
 
 const connectedUsers = {};
 
-// Listen on every connection
+// Listen for every connection
 io.on("connection", (socket) => {
+
+    // Listen for disconnection
+    socket.on("disconnect", () => {
+        delete connectedUsers[socket.username];
+    });
+
+    // Listen for disconnection (clicking on the button)
+    socket.on("btnDisconnect", () => {
+        delete connectedUsers[socket.username];
+    });
 
     // Listen for setting the username of the client
     socket.on("setUsername", (data) => {
-        socket.username = data.username;
-        connectedUsers[data.username] = socket.id;
-        console.log(connectedUsers)
+        if (connectedUsers[data.username]){
+            io.sockets.connected[socket.id].emit("usernameUsed");
+        } else {
+            socket.username = data.username;
+            connectedUsers[data.username] = socket.id;
+        }
     });
 
     // Listen for the list of users
     socket.on("listUsers", () => {
         io.sockets.connected[socket.id].emit("listUsers", {'users': connectedUsers});
-    })
+    });
 
     // Listen for new messages
     socket.on("newMessage", (data) => {
